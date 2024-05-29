@@ -298,8 +298,19 @@ export class LiteYTEmbed extends HTMLElement {
    * Setup the placeholder image for the component
    */
   private initImagePlaceholder(): void {
-    const posterUrlWebp = `https://i.ytimg.com/vi_webp/${this.videoId}/${this.posterQuality}.webp`;
-    const posterUrlJpeg = `https://i.ytimg.com/vi/${this.videoId}/${this.posterQuality}.jpg`;
+    const posterQuality = this.posterQuality;
+
+    if(posterQuality === 'srcsetmax') {
+      const posterUrlWebp = `https://i.ytimg.com/vi_webp/${this.videoId}/maxresdefault.webp 1280w, https://i.ytimg.com/vi_webp/${this.videoId}/sddefault.webp 640w,
+        https://i.ytimg.com/vi_webp/${this.videoId}/hqdefault.webp 480w, https://i.ytimg.com/vi_webp/${this.videoId}/mqdefault.webp 320w, https://i.ytimg.com/vi_webp/${this.videoId}/default.webp 120w`;
+      
+      const posterUrlJpeg = ` https://i.ytimg.com/vi_webp/${this.videoId}/maxresdefault.jpg 1280w, https://i.ytimg.com/vi_webp/${this.videoId}/sddefault.jpg 640w, 
+        https://i.ytimg.com/vi_webp/${this.videoId}/hqdefault.jpg 480w, https://i.ytimg.com/vi_webp/${this.videoId}/mqdefault.jpg 320w, https://i.ytimg.com/vi_webp/${this.videoId}/default.jpg 120w`;
+      
+    }else{
+      const posterUrlWebp = `https://i.ytimg.com/vi_webp/${this.videoId}/${this.posterQuality}.webp`;
+      const posterUrlJpeg = `https://i.ytimg.com/vi/${this.videoId}/${this.posterQuality}.jpg`;
+    }
     this.domRefImg.fallback.loading = this.posterLoading;
     this.domRefImg.webp.srcset = posterUrlWebp;
     this.domRefImg.jpeg.srcset = posterUrlJpeg;
